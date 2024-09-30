@@ -83,6 +83,12 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
+        if (!$request->user()) {
+            return response()->json([
+                'error' => 'No autenticado.',
+                'message' => 'Debes iniciar sesión para acceder a esta ruta.'
+            ], 401);
+        }
         $request->user()->token()->revoke();
 
         return response()->json([
